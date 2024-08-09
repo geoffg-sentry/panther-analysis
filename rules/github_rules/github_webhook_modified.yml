@@ -1,8 +1,8 @@
 AnalysisType: rule
-Filename: github_repo_hook_modified.py
-RuleID: "GitHub.Repo.HookModified"
+Filename: github_webhook_modified.py
+RuleID: "GitHub.Webhook.Modified"
 DisplayName: "GitHub Web Hook Modified"
-Enabled: false
+Enabled: true
 LogTypes:
   - GitHub.Audit
 Tags:
@@ -13,7 +13,7 @@ Reports:
     - TA0010:T1020
 Reference: https://docs.github.com/en/webhooks/about-webhooks
 Severity: Info
-Description: Detects when a web hook is added, modified, or deleted in an org repository.
+Description: Detects when a webhook is added, modified, or deleted
 Tests:
   - Name: GitHub - Webhook Created
     ExpectedResult: true
@@ -26,9 +26,11 @@ Tests:
             "hook_id": 111222333444555,
             "events": ["fork", "public", "pull_request", "push", "repository"],
           },
+        "config": { "url": "https://fake.url" },
         "org": "my-org",
         "p_log_type": "GitHub.Audit",
-        "repository": "my-org/my-repo",
+        "repo": "my-org/my-repo",
+        "public_repo": false,
       }
   - Name: GitHub - Webhook Deleted
     ExpectedResult: true
@@ -43,7 +45,8 @@ Tests:
           },
         "org": "my-org",
         "p_log_type": "GitHub.Audit",
-        "repository": "my-org/my-repo",
+        "repo": "my-org/my-repo",
+        "public_repo": false,
       }
   - Name: GitHub - Non Webhook Event
     ExpectedResult: false
@@ -53,5 +56,29 @@ Tests:
         "action": "org.invite_member",
         "org": "my-org",
         "p_log_type": "GitHub.Audit",
-        "repository": "my-org/my-repo",
+        "repo": "my-org/my-repo",
+      }
+  - Name: Github - App Webhook Created #App and Org webhooks look the same in audit logs
+    ExpectedResult: true
+    Log:
+      {
+        "action": "hook.create",
+        "actor": "dog",
+        "actor_id": "87821126",
+        "actor_location": { "country_code": "US" },
+        "business": "sentry",
+        "business_id": "9999999",
+        "config":
+          {
+            "content_type": "json",
+            "insecure_ssl": "0",
+            "url": "https://fake.url/",
+          },
+        "hook_id": "494982445",
+        "integration": "My Cool Github Integration",
+        "name": "webhook",
+        "operation_type": "create",
+        "org": "codecov",
+        "org_id": 9999999,
+        "p_log_type": "GitHub.Audit",
       }

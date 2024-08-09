@@ -14,7 +14,7 @@ PackDefinition:
     - GitHub.Org.Modified
     - Github.Repo.CollaboratorChange
     - Github.Repo.Created
-    - GitHub.Repo.HookModified
+    #- GitHub.Repo.HookModified
     - GitHub.Repo.InitialAccess
     - Github.Repo.VisibilityChange
     - GitHub.Secret.Scanning.Alert.Created
@@ -24,6 +24,7 @@ PackDefinition:
     - Github.Organization.App.Integration.Installed
     - Github.Public.Repository.Created
     - Github.Repository.Transfer
+    - Github.Webhook.Modified
     # Data model
     - Standard.Github.Audit
     # Globals
